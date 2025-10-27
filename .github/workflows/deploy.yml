@@ -25,12 +25,12 @@ jobs:
         run: docker build -t hassielam/store-app:${{ github.sha }} .
  
       - name: Tag Latest
-        run: docker tag hassielam/store-app:${{ github.sha }} hassielam/store-app:latest
+        run: docker tag hassielam/store-app:${{ github.sha }} hassielam/611-store-app:latest
  
       - name: Push Docker Image
         run: |
-          docker push hassielam/store-app:${{ github.sha }}
-          docker push hassielam/store-app:latest
+          docker push hassielam/611-store-app:${{ github.sha }}
+          docker push hassielam/611-store-app:latest
 
 
           
