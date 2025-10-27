@@ -22,11 +22,13 @@ jobs:
         run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
  
       - name: Build Docker Image
-        run: docker build -t hassielam/store-app:${{ github.sha }} .
- 
+        # Build with the final repo name to avoid tag mismatch later
+        run: |
+          docker build -t hassielam/611-store-app:${{ github.sha }} .
+
       - name: Tag Latest
-        run: docker tag hassielam/store-app:${{ github.sha }} hassielam/611-store-app:latest
- 
+        run: docker tag hassielam/611-store-app:${{ github.sha }} hassielam/611-store-app:latest
+
       - name: Push Docker Image
         run: |
           docker push hassielam/611-store-app:${{ github.sha }}
