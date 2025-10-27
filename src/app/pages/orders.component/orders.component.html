@@ -1,0 +1,29 @@
+<nz-table [nzData]="orders">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Cliente</th>
+            <th>Total</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody> <!-- Los PIPES transforman la informacion!!! $ 10.00, YYYY-MM-DD -->
+        <tr *ngFor="let order of orders">
+            <td>{{ order.id }}</td>
+            <td>{{ order.user.firstName }} {{ order.user.lastName }}</td>
+            <td>
+                <nz-tag nzColor="green" [nzBordered]="false">
+                    {{ order.total | currency }}
+                </nz-tag>
+            </td>
+            <td>{{ order.createdAt | date: 'dd/MM/yyyy'}}</td>
+            <td>
+                <button [routerLink]="['admin/orders',order.id]" nz-button nzType="primary" (onClick)="showModal(order)">
+                    <span nz-icon nzType="eye" nzTheme="outline"></span>
+                    Ver
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
