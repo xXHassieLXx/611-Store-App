@@ -48,7 +48,7 @@ public class StoreDbContext : DbContext
             new Store { Id = 3, Description = "Plaza Galerías Las Torres", Latitude = 21.1211, Longitude = -101.6613 },
             new Store { Id = 4, Description = "Outlet Mulza", Latitude = 21.0459, Longitude = -101.5862 },
             new Store { Id = 5, Description = "La Gran Plaza León", Latitude = 21.1280, Longitude = -101.6827 },
-            new Store { Id = 6, Description = "Altacia", Latitude = 21.1280, Longitude = -102 }
+            new Store { Id = 6, Description = "Altacia :)", Latitude = 21.1280, Longitude = -102 }
         );
 
         modelBuilder.Entity<Product>().HasData(
