@@ -37,6 +37,12 @@ namespace StoreApi.Controllers
                 );
             return result;
         }
+
+        [HttpGet("health")]
+        public IActionResult Health()
+        {
+            return Ok("jalando");
+        }
         
     }
 }
