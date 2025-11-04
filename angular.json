@@ -66,6 +66,10 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "host": "0.0.0.0",
+            "port": 8080
+          },
           "configurations": {
             "production": {
               "buildTarget": "store-app:build:production"
