@@ -5,6 +5,9 @@ using Wkhtmltopdf.NetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("sqlServer");
+Console.WriteLine(connectionString);
+var openAIKey = builder.Configuration["OpenAIKey"];
+Console.WriteLine($"OpenAI Key: {openAIKey}");
 
 // Add services to the container.
 

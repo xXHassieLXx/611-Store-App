@@ -12,8 +12,8 @@ using StoreApi;
 namespace StoreApi.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20250827222738_Seed_Store_Products")]
-    partial class Seed_Store_Products
+    [Migration("20251112223558_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,73 @@ namespace StoreApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("StoreApi.Models.Entities.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BillingAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BillingEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BillingName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InvoiceNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Subtotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Tax")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TaxId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Invoices");
+                });
 
             modelBuilder.Entity("StoreApi.Models.Entities.Order", b =>
                 {
@@ -51,7 +118,7 @@ namespace StoreApi.Migrations
 
             modelBuilder.Entity("StoreApi.Models.Entities.OrderProduct", b =>
                 {
-                    b.Property<int>("ProducdId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")
@@ -60,14 +127,9 @@ namespace StoreApi.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProducdId", "OrderId");
+                    b.HasKey("ProductId", "OrderId");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderProducts");
                 });
@@ -212,7 +274,7 @@ namespace StoreApi.Migrations
                         new
                         {
                             Id = 6,
-                            Description = "Altacia",
+                            Description = "Altacia :)",
                             Latitude = 21.128,
                             Longitude = -102.0
                         });
@@ -257,6 +319,17 @@ namespace StoreApi.Migrations
                         });
                 });
 
+            modelBuilder.Entity("StoreApi.Models.Entities.Invoice", b =>
+                {
+                    b.HasOne("StoreApi.Models.Entities.Order", "Order")
+                        .WithMany("Invoices")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("StoreApi.Models.Entities.Order", b =>
                 {
                     b.HasOne("StoreApi.Models.Entities.SystemUser", "SystemUser")
@@ -277,7 +350,7 @@ namespace StoreApi.Migrations
                         .IsRequired();
 
                     b.HasOne("StoreApi.Models.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("OrderProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -299,6 +372,13 @@ namespace StoreApi.Migrations
                 });
 
             modelBuilder.Entity("StoreApi.Models.Entities.Order", b =>
+                {
+                    b.Navigation("Invoices");
+
+                    b.Navigation("OrderProducts");
+                });
+
+            modelBuilder.Entity("StoreApi.Models.Entities.Product", b =>
                 {
                     b.Navigation("OrderProducts");
                 });

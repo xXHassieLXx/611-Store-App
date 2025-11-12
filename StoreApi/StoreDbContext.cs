@@ -29,7 +29,7 @@ public class StoreDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<OrderProduct>().HasKey(p => new {p.ProducdId, p.OrderId});
+        modelBuilder.Entity<OrderProduct>().HasKey(p => new {p.ProductId, p.OrderId});
 
         modelBuilder.Entity<SystemUser>().HasData(
             new SystemUser
@@ -120,7 +120,147 @@ public class StoreDbContext : DbContext
                 TaxId = "XEXX010101000",
                 CreatedAt = DateTime.Now.AddDays(-3),
                 UpdatedAt = null
-            }
+            },
+            new Invoice
+        {
+            Id = 4,
+            OrderId = 2,
+            InvoiceNumber = "INV-1004",
+            IssueDate = DateTime.Now.AddDays(-9),
+            DueDate = DateTime.Now.AddDays(21),
+            Subtotal = 800,
+            Tax = 128,
+            Total = 928,
+            Currency = "MXN",
+            IsPaid = true,
+            PaymentDate = DateTime.Now.AddDays(-7),
+            BillingName = "María López",
+            BillingAddress = "Av. Central 45, León",
+            BillingEmail = "maria.lopez@gmail.com",
+            TaxId = "XEXX010101000",
+            CreatedAt = DateTime.Now.AddDays(-9),
+            UpdatedAt = DateTime.Now.AddDays(-7)
+        },
+        new Invoice
+        {
+            Id = 5,
+            OrderId = 2,
+            InvoiceNumber = "INV-1005",
+            IssueDate = DateTime.Now.AddDays(-8),
+            DueDate = DateTime.Now.AddDays(22),
+            Subtotal = 300,
+            Tax = 48,
+            Total = 348,
+            Currency = "USD",
+            IsPaid = false,
+            PaymentDate = null,
+            BillingName = "María López",
+            BillingAddress = "Av. Central 45, León",
+            BillingEmail = "maria.lopez@gmail.com",
+            TaxId = "XEXX010101000",
+            CreatedAt = DateTime.Now.AddDays(-8),
+            UpdatedAt = null
+        },
+        new Invoice
+        {
+            Id = 6,
+            OrderId = 1,
+            InvoiceNumber = "INV-1006",
+            IssueDate = DateTime.Now.AddDays(-7),
+            DueDate = DateTime.Now.AddDays(23),
+            Subtotal = 1500,
+            Tax = 240,
+            Total = 1740,
+            Currency = "MXN",
+            IsPaid = true,
+            PaymentDate = DateTime.Now.AddDays(-5),
+            BillingName = "Carlos Ruiz",
+            BillingAddress = "Blvd. Campestre 500, León",
+            BillingEmail = "carlos.ruiz@gmail.com",
+            TaxId = "XAXX010101000",
+            CreatedAt = DateTime.Now.AddDays(-7),
+            UpdatedAt = DateTime.Now.AddDays(-5)
+        },
+        new Invoice
+        {
+            Id = 7,
+            OrderId = 2,
+            InvoiceNumber = "INV-1007",
+            IssueDate = DateTime.Now.AddDays(-6),
+            DueDate = DateTime.Now.AddDays(24),
+            Subtotal = 2200,
+            Tax = 352,
+            Total = 2552,
+            Currency = "MXN",
+            IsPaid = false,
+            PaymentDate = null,
+            BillingName = "Carlos Ruiz",
+            BillingAddress = "Blvd. Campestre 500, León",
+            BillingEmail = "carlos.ruiz@gmail.com",
+            TaxId = "XAXX010101000",
+            CreatedAt = DateTime.Now.AddDays(-6),
+            UpdatedAt = null
+        },
+        new Invoice
+        {
+            Id = 8,
+            OrderId = 1,
+            InvoiceNumber = "INV-1008",
+            IssueDate = DateTime.Now.AddDays(-4),
+            DueDate = DateTime.Now.AddDays(26),
+            Subtotal = 900,
+            Tax = 144,
+            Total = 1044,
+            Currency = "USD",
+            IsPaid = true,
+            PaymentDate = DateTime.Now.AddDays(-2),
+            BillingName = "Juan Pérez",
+            BillingAddress = "Calle Falsa 123, León",
+            BillingEmail = "juan.perez@gmail.com",
+            TaxId = "XAXX010101000",
+            CreatedAt = DateTime.Now.AddDays(-4),
+            UpdatedAt = DateTime.Now.AddDays(-2)
+        },
+        new Invoice
+        {
+            Id = 9,
+            OrderId = 1,
+            InvoiceNumber = "INV-1009",
+            IssueDate = DateTime.Now.AddDays(-2),
+            DueDate = DateTime.Now.AddDays(28),
+            Subtotal = 400,
+            Tax = 64,
+            Total = 464,
+            Currency = "MXN",
+            IsPaid = false,
+            PaymentDate = null,
+            BillingName = "Juan Pérez",
+            BillingAddress = "Calle Falsa 123, León",
+            BillingEmail = "juan.perez@gmail.com",
+            TaxId = "XAXX010101000",
+            CreatedAt = DateTime.Now.AddDays(-2),
+            UpdatedAt = null
+        },
+        new Invoice
+        {
+            Id = 10,
+            OrderId = 2,
+            InvoiceNumber = "INV-1010",
+            IssueDate = DateTime.Now.AddDays(-1),
+            DueDate = DateTime.Now.AddDays(29),
+            Subtotal = 1100,
+            Tax = 176,
+            Total = 1276,
+            Currency = "MXN",
+            IsPaid = true,
+            PaymentDate = DateTime.Now,
+            BillingName = "María López",
+            BillingAddress = "Av. Central 45, León",
+            BillingEmail = "maria.lopez@gmail.com",
+            TaxId = "XEXX010101000",
+            CreatedAt = DateTime.Now.AddDays(-1),
+            UpdatedAt = DateTime.Now
+        }
         );
 
     }

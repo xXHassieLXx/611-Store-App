@@ -7,6 +7,6 @@ public class OrderProduct
     
     public double Amount { get; set; }
     
-    public int ProducdId { get; set; }
+    public int ProductId { get; set; }
     public Product Product { get; set; }
 }

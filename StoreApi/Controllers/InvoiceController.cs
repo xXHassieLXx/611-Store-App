@@ -1,5 +1,7 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OpenAI.Chat;
 using StoreApi.Models.DTOs;
 using StoreApi.Models.Entities;
 
@@ -10,10 +12,12 @@ namespace StoreApi.Controllers
     public class InvoicesController : ControllerBase
     {
         private readonly StoreDbContext _context;
+        private readonly IConfiguration _config;
 
-        public InvoicesController(StoreDbContext context)
+        public InvoicesController(StoreDbContext context,IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
         // GET: /api/invoices
@@ -97,5 +101,60 @@ namespace StoreApi.Controllers
                 return Problem("Ocurrió un error al crear la factura.");
             }
         }
+        
+        [HttpGet("ai-analyze")]
+        public async Task<ActionResult> AnalyzeInvoices()
+        {
+            var openAIKey = _config["OpenAIKey"];
+            if (string.IsNullOrWhiteSpace(openAIKey))
+                return Problem("Falta configurar OpenAIKey.");
+
+            // obtener datos
+            var invoices = await _context.Invoices
+                .Include(i => i.Order)
+                .ToListAsync();
+
+            // Selección de campos
+            var summary = invoices.Select(i => new
+            {
+                i.Id,
+                i.OrderId,
+                i.InvoiceNumber,
+                i.IssueDate,
+                i.DueDate,
+                i.Subtotal,
+                i.Tax,
+                i.Total,
+                i.Currency,
+                i.IsPaid,
+                i.PaymentDate
+            });
+
+            var jsonData = JsonSerializer.Serialize(summary);
+            var prompt = Prompts.GenerateInvoicesPrompt(jsonData);
+            
+            var client = new ChatClient(
+                model: "gpt-5-mini",
+                apiKey: openAIKey
+            );
+
+            var result = await client.CompleteChatAsync(new[]
+            {
+                new UserChatMessage(prompt)
+            });
+
+            var text = result.Value.Content[0].Text?.Trim() ?? "";
+            
+            try
+            {
+                using var _ = JsonDocument.Parse(text); 
+                return Content(text, "application/json"); 
+            }
+            catch
+            {
+                return Content("error", "text/plain");
+            }
+        }
+        
     }
 }
